@@ -12,7 +12,7 @@ const template = () => {
         return `<p>Lista de compras vacía</p>`
     }
 
-    let compras = state.listaCompras.map(item => `<li>${item}</li>`).join("")
+    let compras = state.listaCompras.map(item => `<li>${item}</li><button>Eliminar</button>`).join("")
     return compras
 }
 
@@ -35,10 +35,21 @@ const setState = (obj) => {
     render()
 }
 
+//Función para obtener el estado
+// const getState = () => state
+
+//Función para obtener una COPIA del estado
+const getState = () => JSON.parse(JSON.stringify(state))
+
 //Estableciendo valores por defecto al State
 setState({
-    listaCompras: ['Azucar', 'Arroz']
+    listaCompras: ['Azucar', 'Arroz'],
+    total: 9000
 })
+
+const items = getState()
+items.listaCompras.push('Pollo')
+setState(items)
 
 d.addEventListener("submit", e => {
     if (!e.target.matches('#formulario-compras')) return false
@@ -53,7 +64,12 @@ d.addEventListener("submit", e => {
     // list.appendChild(li)
 
     //Actualizar el State y la UI
-    state.listaCompras.push(item.value)
+    // state.listaCompras.push(item.value)
+
+    //Actualizar el State y la UI pero de forma reactiva
+    const lastState = getState()
+    lastState.listaCompras.push(item.value)
+    setState(lastState)
         
     item.value = ""
     item.focus()
