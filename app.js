@@ -2,7 +2,8 @@ const d = document
 
 //El State
 const state = {
-    listaCompras: []
+    listaCompras: [],
+    cliente: "Leo Messi"
 }
 
 //Template UI
@@ -11,7 +12,7 @@ const template = () => {
         return `<p>Lista de compras vacía</p>`
     }
 
-    let compras = state.listaCompras.map(item => `<li>${item}</li>`)
+    let compras = state.listaCompras.map(item => `<li>${item}</li>`).join("")
     return compras
 }
 
@@ -24,6 +25,20 @@ const render = () => {
 }
 
 d.addEventListener("DOMContentLoaded", render)
+
+const setState = (obj) => {
+    for (let key in obj) {
+        if (state.hasOwnProperty(key)) {
+            state[key] = obj[key]
+        }
+    }
+    render()
+}
+
+//Estableciendo valores por defecto al State
+setState({
+    listaCompras: ['Azucar', 'Arroz']
+})
 
 d.addEventListener("submit", e => {
     if (!e.target.matches('#formulario-compras')) return false
@@ -39,8 +54,7 @@ d.addEventListener("submit", e => {
 
     //Actualizar el State y la UI
     state.listaCompras.push(item.value)
-    render()
-
+        
     item.value = ""
     item.focus()
 })
