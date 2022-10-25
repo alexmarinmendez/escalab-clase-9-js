@@ -6,13 +6,21 @@ const state = {
     cliente: "Leo Messi"
 }
 
+const deleteItem = (i) => {
+    const prevState = getState()
+    actualState = prevState.listaCompras.filter((item, index) => index != parseInt(i))
+    console.log(actualState)
+    setState({listaCompras: actualState})
+}
+
 //Template UI
 const template = () => {
     if (state.listaCompras.length < 1) {
         return `<p>Lista de compras vacía</p>`
     }
 
-    let compras = state.listaCompras.map(item => `<li>${item}</li><button>Eliminar</button>`).join("")
+    // let compras = state.listaCompras.map(item => `<li>${item}</li><button onclick="deleteItem('${item}')">Eliminar</button>`).join("")
+    let compras = state.listaCompras.map((item, index) => `<li>${item}</li><button onclick="deleteItem('${index}')">Eliminar</button>`).join("")
     return compras
 }
 
